@@ -21,5 +21,6 @@
 
 <pre><span id="MODULEAsync_funcs"><span class="keyword">module</span> Async_funcs</span>: <code class="code">sig</code> <a href="Async_funcs.html">..</a> <code class="code">end</code></pre><hr width="100%">
 
+<pre><span id="VALawait_yield"><span class="keyword">val</span> await_yield</span> : <code class="type">(unit -&gt; [&gt; `Unit ]) -&gt; ([&gt; `Unit ] -&gt; unit) -&gt; unit</code></pre>
 <pre><span id="VALawait_sleep"><span class="keyword">val</span> await_sleep</span> : <code class="type">(unit -&gt; [&gt; `Unit ]) -&gt; ([&gt; `Unit ] -&gt; unit) -&gt; float -&gt; unit</code></pre>
 <pre><span id="VALawait_http_get"><span class="keyword">val</span> await_http_get</span> : <code class="type">(unit -&gt; [&gt; `Get of (string, string) Stdlib.Result.t ]) -&gt;<br>       ([&gt; `Get of (string, string) Stdlib.Result.t ] -&gt; unit) -&gt;<br>       string -&gt; string -&gt; int -&gt; (string, string) Stdlib.Result.t</code></pre></body></html>

@@ -49,7 +49,7 @@ val make_iterator : (('a -> 'b) -> _) -> 'b -> 'a
              'resume' to a polymorphic variant in its completion
              callback ...]
 
-        match await () with 
+        match await () with
            [... match on the polymorphic variant ...]
 
         [... do more of the same as required...])]}
@@ -65,6 +65,14 @@ val make_iterator : (('a -> 'b) -> _) -> 'b -> 'a
    to ’resume’ by the callback, which must be a polymorphic variant
    carrying its payload.  The return value of the waitable function is
    ignored.
+
+   It is essential that the node function having the callback which
+   executes 'resume' as its continuation returns before the callback
+   executes, so that there is a yield to the node event loop before
+   'resume' executes.  This is generally true of nodejs asynchronous
+   functions, but where that may not be the case, before the callback
+   applies 'resume' it can yield to the event loop by means of
+   Async_funcs.await_yield.
 
    The 'await' argument is a thunk (that is, it always takes a unit
    argument).  async returns unit.

@@ -6,6 +6,13 @@ let require module_name =
     (js_expr "require")
     [|inject (Js.string module_name)|]
 
+let await_yield await resume =
+  ignore @@ Js.Unsafe.global##setImmediate
+              (Js.wrap_callback (fun _ -> resume `Unit )) ;
+  match await () with
+    `Unit -> ()
+  | _ -> assert false
+
 let await_sleep await resume secs =
   ignore @@ Js.Unsafe.global##setTimeout
               (Js.wrap_callback (fun _ -> resume `Unit ))

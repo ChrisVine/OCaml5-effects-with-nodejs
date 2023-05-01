@@ -11,6 +11,7 @@
 </head>
 <body>
 <code class="code"><span class="keyword">sig</span><br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;await_yield&nbsp;:&nbsp;(unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;[&gt;&nbsp;<span class="keywordsign">`</span><span class="constructor">Unit</span>&nbsp;])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;([&gt;&nbsp;<span class="keywordsign">`</span><span class="constructor">Unit</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;await_sleep&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;(unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;[&gt;&nbsp;<span class="keywordsign">`</span><span class="constructor">Unit</span>&nbsp;])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;([&gt;&nbsp;<span class="keywordsign">`</span><span class="constructor">Unit</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;await_http_get&nbsp;:<br>
