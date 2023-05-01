@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Async_funcs.html">
+<link rel="Up" href="index.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Async_funcs" rel="Chapter" href="Async_funcs.html">
+<link title="Generators" rel="Chapter" href="Generators.html"><title>Generators</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Async_funcs.html" title="Async_funcs">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_Generators.html">Generators</a></h1>
+
+<pre><span id="MODULEGenerators"><span class="keyword">module</span> Generators</span>: <code class="code">sig</code> <a href="Generators.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<div class="info-desc">
+<p>This file uses ocaml-5 effects to provide asymmetrical "generator"
+   coroutines.</p>
+
+<p>These generators are in the style of python (and ECMAScript)
+   generators: the generator function can both yield a value to the
+   iterator and on resuming receive a value from it.  The value given
+   to the first invocation of the iterator is ignored, because the
+   generator function has yet to start.  Any value given to subsequent
+   invocations of the iterator is returned by the relevant yield
+   expression in the generator function when the generator function
+   resumes.  In addition, as in the case of python generators, the
+   value returned by the generator function is ignored: if the
+   generator is not infinite, when reaching the end of the generator
+   function the iterator raises a Stop_iteration exception.  When the
+   iterator returns a value, it returns the value explicitly yielded
+   by the generator function.</p>
+</div>
+</div>
+<hr width="100%">
+
+<pre><span id="EXCEPTIONStop_iteration"><span class="keyword">exception</span> Stop_iteration</span></pre>
+
+<pre><span id="VALmake_iterator"><span class="keyword">val</span> make_iterator</span> : <code class="type">(('a -&gt; 'b) -&gt; 'c) -&gt; 'b -&gt; 'a</code></pre><div class="info ">
+<div class="info-desc">
+<p>make_iterator is a function which takes a generator function as an
+   argument and returns a function ('b -&gt; 'a).  The returned function
+   ('b -&gt; 'a) is an iterator coroutine which will invoke the generator
+   function and then return any value yielded by that function.  The
+   generator function takes a yield function as its only argument of
+   type ('a -&gt; 'b) and returns any type, which is ignored.</p>
+
+<p>One point to note is that where a generator function does not use
+   the value returned by yield (such as where that value is unit) and
+   the iterator is never actually applied, the compiler may be unable
+   to deduce the type of that value and may mark it as a weakly
+   polymorphic type which cannot be generalised and escapes its scope.
+   So below, the expression:</p>
+
+<p>let iter = make_iterator (fun yield -&gt; yield 2 ; yield 4)</p>
+
+<p>will fail to compile if there is no use of iter.  Where this
+   problem arises, it can be averted by explicitly typing the
+   definition of iter as follows:</p>
+
+<p>let iter : unit -&gt; int = make_iterator (fun yield -&gt; yield 2 ;
+                                                          yield 4)</p>
+</div>
+</div>
+
+<pre><span id="VALasync"><span class="keyword">val</span> async</span> : <code class="type">((unit -&gt; ([&gt; `Unit ] as 'a)) -&gt; ('a -&gt; unit) -&gt; 'b) -&gt; unit</code></pre><div class="info ">
+<div class="info-desc">
+<p>Typical use is like this:</p>
+
+<p>async (fun await resume -&gt;</p>
+
+<p>... set up node asynchronous operation which applies
+            ... 'resume' to a polymorphic variant on completion</p>
+
+<p>match await () with 
+            ... match on the polymorphic variant ...</p>
+
+<p>... do more of the same as required)</p>
+
+<p>async takes a waitable function (namely a function which takes
+   'await' as its first parameter, which is a yield function obtained
+   by a call to make-iterator, and 'resume' as its second parameter,
+   which is an iterator constructed by make_iterator).  The 'resume'
+   argument must only be called by an asynchronous callback, and the
+   'await' argument must only be called by the waitable function in
+   order to block until the callback is ready to let it resume.  When
+   it unblocks, the 'await' argument returns the value (if any) passed
+   to ’resume’ by the callback, which must be a polymorphic variant
+   carrying its payload.  The return value of the waitable function is
+   ignored.</p>
+
+<p>The 'await' argument is a thunk (that is, it always takes a unit
+   argument).  async returns unit.</p>
+
+<p>A more general explanation is that the block of code executed by
+   the application of async to the waitable function is a separate
+   unit of computation, which appears within itself to proceed
+   sequentially even though in fact it executes asynchronously on the
+   node event loop.  Each such block also appears to execute
+   concurrently with other 'async' blocks running on the same event
+   loop.  Each 'async' block is therefore in some sense analogous to a
+   thread of execution.</p>
+
+<p>Examples of usage are in examples.ml and async_funcs.ml</p>
+</div>
+</div>
+</body></html>

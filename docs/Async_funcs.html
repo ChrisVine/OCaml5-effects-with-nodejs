@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="next" href="Generators.html">
+<link rel="Up" href="index.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Async_funcs" rel="Chapter" href="Async_funcs.html">
+<link title="Generators" rel="Chapter" href="Generators.html"><title>Async_funcs</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Generators.html" title="Generators">Next</a>
+</div>
+<h1>Module <a href="type_Async_funcs.html">Async_funcs</a></h1>
+
+<pre><span id="MODULEAsync_funcs"><span class="keyword">module</span> Async_funcs</span>: <code class="code">sig</code> <a href="Async_funcs.html">..</a> <code class="code">end</code></pre><hr width="100%">
+
+<pre><span id="VALawait_sleep"><span class="keyword">val</span> await_sleep</span> : <code class="type">(unit -&gt; [&gt; `Unit ]) -&gt; ([&gt; `Unit ] -&gt; 'a) -&gt; float -&gt; unit</code></pre>
+<pre><span id="VALawait_http_get"><span class="keyword">val</span> await_http_get</span> : <code class="type">(unit -&gt; [&gt; `Get of (string, string) Stdlib.Result.t ]) -&gt;<br>       ([&gt; `Get of (string, string) Stdlib.Result.t ] -&gt; unit) -&gt;<br>       string -&gt; string -&gt; int -&gt; (string, string) Stdlib.Result.t</code></pre></body></html>
