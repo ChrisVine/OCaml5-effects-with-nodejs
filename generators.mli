@@ -72,7 +72,7 @@ val make_iterator : (('a -> 'b) -> _) -> 'b -> 'a
    'resume' executes.  This is generally true of nodejs asynchronous
    functions, but where that may not be the case, before the callback
    applies 'resume' it can yield to the event loop by means of
-   Async_funcs.await_yield.
+   Async_funcs.await_yield applied within a new 'async' block.
 
    The 'await' argument is a thunk (that is, it always takes a unit
    argument).  async returns unit.
