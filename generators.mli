@@ -43,15 +43,16 @@ val make_iterator : (('a -> 'b) -> _) -> 'b -> 'a
 
 (** Typical use is like this:
 
-   async (fun await resume ->
+{[   async (fun await resume ->
 
-            ... set up node asynchronous operation which applies
-            ... 'resume' to a polymorphic variant on completion
+        [... set up node asynchronous operation which applies
+             'resume' to a polymorphic variant in its completion
+             callback ...]
 
-            match await () with 
-            ... match on the polymorphic variant ...
+        match await () with 
+           [... match on the polymorphic variant ...]
 
-        ... do more of the same as required)
+        [... do more of the same as required...])]}
 
    async takes a waitable function (namely a function which takes
    'await' as its first parameter, which is a yield function obtained

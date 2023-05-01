@@ -74,16 +74,16 @@
 <div class="info-desc">
 <p>Typical use is like this:</p>
 
-<p>async (fun await resume -&gt;</p>
+<pre class="codepre"><code class="code">   async (fun await resume -&gt;
 
-<p>... set up node asynchronous operation which applies
-            ... 'resume' to a polymorphic variant on completion</p>
+        [... set up node asynchronous operation which applies
+             'resume' to a polymorphic variant in its completion
+             callback ...]
 
-<p>match await () with 
-            ... match on the polymorphic variant ...</p>
+        match await () with 
+           [... match on the polymorphic variant ...]
 
-<p>... do more of the same as required)</p>
-
+        [... do more of the same as required...])</code></pre>
 <p>async takes a waitable function (namely a function which takes
    'await' as its first parameter, which is a yield function obtained
    by a call to make-iterator, and 'resume' as its second parameter,
