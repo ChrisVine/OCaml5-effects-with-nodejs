@@ -51,7 +51,7 @@ let async waitable =
   let resume = ref (fun _ -> assert false) in
   let iter = make_iterator (fun await -> waitable await !resume) in
   resume := (fun x -> try iter x with
-                        Stop_iteration -> print_endline "Stop" ; ()
+                        Stop_iteration -> ()
                       | exn -> raise exn) ;
   !resume `Unit
 
