@@ -23,7 +23,7 @@ examples.js: examples.byte
 	js_of_ocaml --enable=effects --target-env=nodejs $<
 
 exec: examples.js
-	node examples.js
+	@node examples.js
 
 .PHONY: docs
 docs:
