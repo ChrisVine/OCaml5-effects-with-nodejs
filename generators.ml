@@ -37,17 +37,11 @@ let make_iterator (type a b) (f: (a -> b) -> _) =
   iter
 
 let async waitable =
-  (* I am surprised these work, where we dereference 'resume' when
+  (* I am surprised this works, where we dereference 'resume' when
      passing it as an argument of the generator function given to
      make_iterator; but it appears dereferencing is delayed until the
      return value of make_iterator is applied, which is what we
      want. *)
-  (*
-  let resume = ref (fun _ -> assert false) in
-  resume :=  make_iterator (fun await -> waitable await !resume) ;
-  !resume `Unit
-   *)
-
   let resume = ref (fun _ -> assert false) in
   let iter = make_iterator (fun await -> waitable await !resume) in
   resume := (fun x -> try iter x with
