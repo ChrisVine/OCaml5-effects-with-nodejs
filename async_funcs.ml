@@ -31,10 +31,10 @@ let await_http_get await resume host path port =
       let accum = ref "" in
       ignore (res##setEncoding (Js.string "utf8")) ;
       ignore (res##on (Js.string "data")
-                      (fun chunk ->
-                        accum := !accum ^ (Js.to_string chunk))) ;
+                      (Js.wrap_callback (fun chunk ->
+                           accum := !accum ^ (Js.to_string chunk)))) ;
       ignore (res##on (Js.string "end")
-                      (fun _ -> resume (`Get (Result.Ok !accum)))))
+                      (Js.wrap_callback (fun _ -> resume (`Get (Result.Ok !accum))))))
   and http = require "http" in
   let req = http##request opts cb in
   ignore (req##on (Js.string "error")

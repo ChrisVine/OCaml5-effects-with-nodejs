@@ -44,8 +44,6 @@ let () = async (fun await resume ->
              await_sleep await resume 1. ;
              print_endline "Finished second sleep")
 
-(* not working as of js_of_ocaml-5.1.1 - see README.md *)
-(*
 let check_ip = "checkip.dyndns.com"
 
 let () = async (fun await resume ->
@@ -60,4 +58,3 @@ let () = async (fun await resume ->
                 with Not_found ->
                   prerr_endline "IP address not found")
              | Error err -> print_endline err)
-*)
