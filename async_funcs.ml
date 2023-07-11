@@ -56,7 +56,11 @@ let await_http_get await resume host path port =
   let req = http##request opts cb in
   ignore (req##on (Js.string "error")
                   (Js.wrap_callback
-                     (fun e -> resume (`Get (Result.Error (Js.to_string e##.message)))))) ;
+                     (fun e ->
+                       if !ready then resume (`Get (Result.Error (Js.to_string e##.message)))
+                       else Generators.async (fun await' resume' ->
+                                await_yield await' resume' ;
+                                resume (`Get (Result.Error (Js.to_string e##.message))))))) ;
   ignore (req##end_) ;
 
   ready := true ;
