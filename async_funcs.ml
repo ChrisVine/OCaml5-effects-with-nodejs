@@ -30,8 +30,8 @@ let await_sleep await resume secs =
    For node callbacks where that may not be the case, the use of a
    ready guard as below is one way to deal with the issue.  (The use
    of a ready guard is in fact overkill here because in practice the
-   end method of http.ClientRequest will return before its "end"
-   callback executes.) *)
+   end method of http.ClientRequest will return before its "error" or
+   its response's "end" callbacks execute.) *)
 let await_http_get await resume host path port =
   let ready = ref false in
 
@@ -54,6 +54,10 @@ let await_http_get await resume host path port =
                                     resume (`Get (Result.Ok !accum)))))))
   and http = require "http" in
   let req = http##request opts cb in
+  (* https://nodejs.org/api/http.html#httprequestoptions-callback
+     indicates that the "error" event and its response's "end" event
+     cannot both occur on the same invocation of req.end, so it is not
+     necessary to cover that case. *)
   ignore (req##on (Js.string "error")
                   (Js.wrap_callback
                      (fun e ->
