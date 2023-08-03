@@ -48,10 +48,10 @@ let await_http_get await resume host path port =
                            accum := !accum ^ (Js.to_string chunk)))) ;
       ignore (res##on (Js.string "end")
                       (Js.wrap_callback (fun _ ->
-                           if !ready then resume (`Get (Result.Ok !accum))
+                           if !ready then resume (`HttpGet (Result.Ok !accum))
                            else Generators.async (fun await' resume' ->
                                     await_yield await' resume' ;
-                                    resume (`Get (Result.Ok !accum)))))))
+                                    resume (`HttpGet (Result.Ok !accum)))))))
   and http = require "http" in
   let req = http##request opts cb in
   (* https://nodejs.org/api/http.html#httprequestoptions-callback
@@ -61,13 +61,13 @@ let await_http_get await resume host path port =
   ignore (req##on (Js.string "error")
                   (Js.wrap_callback
                      (fun e ->
-                       if !ready then resume (`Get (Result.Error (Js.to_string e##.message)))
+                       if !ready then resume (`HttpGet (Result.Error (Js.to_string e##.message)))
                        else Generators.async (fun await' resume' ->
                                 await_yield await' resume' ;
-                                resume (`Get (Result.Error (Js.to_string e##.message))))))) ;
+                                resume (`HttpGet (Result.Error (Js.to_string e##.message))))))) ;
   ignore (req##end_) ;
 
   ready := true ;
   match await () with
-    `Get res -> res
+    `HttpGet res -> res
   | _ -> assert false
