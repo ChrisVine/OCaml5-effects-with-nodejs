@@ -4,19 +4,19 @@ open Generators
 let iter = make_iterator (fun yield -> yield 2 ; yield 4)
 
 let () =
-  try print_int (iter ()) ; print_endline ""
+  try print_int (iter ()) ; print_newline ()
   with Stop_iteration -> print_endline "Stop iteration"
 
 let () =
-  try print_int (iter ()) ; print_endline ""
+  try print_int (iter ()) ; print_newline ()
   with Stop_iteration -> print_endline "Stop iteration"
 
 let () =
-  try print_int (iter ()) ; print_endline ""
+  try print_int (iter ()) ; print_newline ()
   with Stop_iteration -> print_endline "Stop iteration"
 
 let () =
-  try print_int (iter ()) ; print_endline ""
+  try print_int (iter ()) ; print_newline ()
   with Stop_iteration -> print_endline "Stop iteration"
 
 (* sending values back to the generator function *)
